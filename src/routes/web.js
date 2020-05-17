@@ -1,6 +1,6 @@
 import express from 'express';
-import {home, auth, user, contact} from './../controllers/index';
-import {authValid, userValid} from './../validation/index';
+import {home, auth, user, contact, notification} from './../controllers/index';
+import {authValid, userValid, contactValid} from './../validation/index';
 import initPassportLocal from './../controllers/passportController/local';
 import passport from 'passport'
 
@@ -25,7 +25,13 @@ let initRoutes = (app) => {
 
     router.put('/user/update-avatar', auth.checkLoggedIn, user.updateAvatar);
     router.put('/user/update-info', auth.checkLoggedIn, userValid.updateInfo, user.updateInfo);
-    router.get('/contact/find-users/:keyword', auth.checkLoggedIn, contact.findUsersContact)
+
+    router.get('/contact/find-users/:keyword', auth.checkLoggedIn, contactValid.findUserContact, contact.findUsersContact);
+    router.post('/contact/add-new', auth.checkLoggedIn, contact.addNew);
+    router.delete('/contact/remove-request-contact', auth.checkLoggedIn, contact.removeRequestContact);
+    router.delete('/contact/remove-request-contact', auth.checkLoggedIn, contact.removeRequestContact);
+    router.get('/notification/read-more', auth.checkLoggedIn, notification.readMore);
+    router.put('/notification/mark-all-as-read', auth.checkLoggedIn, notification.markAllAsRead);
 
     return app.use('/', router);
 };

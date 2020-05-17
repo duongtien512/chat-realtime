@@ -245,7 +245,7 @@ label:focus,
 
 #notifications {
   display: none;
-  min-width: 250px;
+  min-width: 300px;
   position: absolute;
   right: 17px !important;
   border: solid 1px rgba(100, 100, 100, .20);
@@ -293,7 +293,7 @@ label:focus,
 }
 
 .noti_counter {
-  display: none;
+  display: block;
   position: absolute;
   background: #E1141E;
   color: #FFF;
@@ -308,7 +308,8 @@ label:focus,
 }
 
 .noti_content {
-  height: 200px;
+  position: relative;
+  height: 300px;
   background-color: #fff;
   overflow: auto;
 }
@@ -319,6 +320,7 @@ label:focus,
   margin-top: 5px;
   margin-left: 7px;
   color: #333;
+  padding: 5px;
 }
 
 .seeAll {
@@ -1278,4 +1280,30 @@ label:focus,
 
 .user-modal-alert-error, .user-modal-alert-success {
   display: none;
+}
+
+.notify-readed-false {
+  background: #E3E8F0;
+}
+
+.display-none {
+  display: none;
+}
+
+.list-notifications li {
+  border-bottom: 1px solid #dfe6e9;
+  width: 90%;
+  height: auto;
+  padding: 7px 0px 12px 5px;
+  margin: 0 auto;
+  list-style-type: none;
+}
+
+.list-notifications li:hover {
+  cursor: pointer;
+  background-color: #eceff1;
+}
+
+.mark-notify-as-read{
+  float: right;
 }

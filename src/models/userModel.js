@@ -50,6 +50,20 @@ UserSchema.statics = {
     },
     updateUser(id, item) {
         return this.findByIdAndUpdate(id, item).exec();
+    },
+
+    //tim kiem users va add vao contact theo keyword va deprecatedUserIds
+    findAllForAddContact(deprecatedUserIds, keyword) {
+        return this.find({
+            $and: [
+                {'_id': {$nin: deprecatedUserIds}},  //loc ra user khong nam trong 
+                {'local.isActive': true},  // lay ra user da active
+                {$or: [
+                    {'username': {'$regex': new RegExp(keyword, 'i')}},    //tim username gan giong nhat so voi tu khoa keyword
+                    {'local.email': {'$regex': new RegExp(keyword, 'i')}}
+                ]}
+            ]
+        }, {_id: 1, username: 1, address: 1, avatar: 1}).exec();
     }
 };
 

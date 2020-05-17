@@ -24,7 +24,33 @@ ContactSchema.statics = {
                 {'contactId': userId},
             ]
         }).exec();
+    },
+
+        //Kiem tra ton tai 2 user
+    checkExists(userId, contactId) {
+        return this.findOne({
+            $or: [
+                {$and: [
+                    {'userId': userId},
+                    {'contactId': contactId}
+                ]},
+                {$and: [
+                    {'userId': contactId},
+                    {'contactId': userId}
+                ]}
+            ]
+        }).exec();
+    },
+
+        //Xoa contact tra ve
+    removeRequestContact(userId, contactId) {
+        return this.remove({
+            $and: [
+                {'userId': userId},
+                {'contactId': contactId}
+            ]
+        }).exec();
     }
-}
+};
 
 module.exports = mongoose.model('contact', ContactSchema);
