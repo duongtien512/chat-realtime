@@ -1,11 +1,11 @@
 import {pushSocketIdToArray, emitNotifyToArray, removeSocketIdFromArray} from '../../helpers/socketHelper';
 
-let addNewContact = (io) => {
+let approveRequestContactReceived = (io) => {
     let clients = {};
     io.on('connection', (socket) => {
         //push socket id
         clients = pushSocketIdToArray(clients, socket.request.user.id, socket.id)
-        socket.on('add-new-contact', (data) => {
+        socket.on('approve-request-contact-received', (data) => {
             let currentUser = {
                 id: socket.request.user.id,
                 username: socket.request.user.username,
@@ -15,7 +15,7 @@ let addNewContact = (io) => {
 
                 // emit notification
             if(clients[data.contactId]) {
-                emitNotifyToArray(clients, data.contactId, io, 'response-add-new-contact', currentUser)
+                emitNotifyToArray(clients, data.contactId, io, 'response-approve-request-contact-received', currentUser)
             }
 
         });
@@ -27,4 +27,4 @@ let addNewContact = (io) => {
     })
 }
 
-module.exports = addNewContact
+module.exports = approveRequestContactReceived

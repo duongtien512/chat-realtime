@@ -6,6 +6,7 @@ function markNotificationsAsRead(targetUsers){
         success: function(result) {
             if(result) {
                 targetUsers.forEach(function(uid){
+                    console.log(targetUsers)
                     $('.noti_content').find(`span[data-uid=${uid}]`).removeClass('notify-readed-false');
                     $('ul.list-notifications').find(`li>span[data-uid=${uid}]`).removeClass('notify-readed-false');
                 });

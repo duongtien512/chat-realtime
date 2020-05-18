@@ -17,7 +17,7 @@ NotificationSchema.statics = {
         return this.create(item);
     },
 
-removeRequestContactNotification(senderId, receiverId, type) {
+removeRequestContactSentNotification(senderId, receiverId, type) {
     return this.remove({
         $and: [
             {'senderId': senderId},
@@ -59,7 +59,8 @@ markAllAsRead(userId, targetUsers) {
 }; // end Model
 
 const NOTIFICATION_TYPES = {
-    ADD_CONTACT: 'add_contact'
+    ADD_CONTACT: 'add_contact',
+    APPROVE_CONTACT: 'approve_contact'
 };
 
 const NOTIFICATION_CONTENTS = {

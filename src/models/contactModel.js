@@ -43,14 +43,130 @@ ContactSchema.statics = {
     },
 
         //Xoa contact tra ve
-    removeRequestContact(userId, contactId) {
+    removeRequestContactSent(userId, contactId) {
         return this.remove({
             $and: [
                 {'userId': userId},
-                {'contactId': contactId}
+                {'contactId': contactId},
+                {'status': false}
             ]
         }).exec();
+    },
+
+    removeRequestContactReceived(userId, contactId) {
+        return this.remove({
+            $and: [
+                {'contactId': userId},
+                {'userId': contactId},
+                {'status': false}
+            ]
+        }).exec();
+    },
+
+    approveRequestContactReceived(userId, contactId) {
+        return this.update({
+            $and: [
+                {'contactId': userId},
+                {'userId': contactId},
+                {'status': false}
+            ]
+        }, {'status': true}).exec();
+    },
+
+        // get contacts by userId and limit
+    getContacts(userId, limit) {
+        return this.find({
+            $and: [
+                {$or: [
+                    {'userId': userId},
+                    {'contactId': userId}
+                ]},
+                {'status': true}
+            ]
+        }).sort({'createdAt': -1}).limit(limit).exec();
+    },
+
+    // get contacts sent by userId and limit
+    getContactsSent(userId, limit) {
+        return this.find({
+            $and: [
+                {'userId': userId},
+                {'status': false}
+            ]
+        }).sort({'createdAt': -1}).limit(limit).exec();
+    },
+
+    // get contacts received by userId and limit
+    getContactsReceived(userId, limit) {
+        return this.find({
+            $and: [
+                {'contactId': userId},
+                {'status': false}
+            ]
+        }).sort({'createdAt': -1}).limit(limit).exec();
+    },
+
+    //Dem so luong thong bao ket ban
+    countAllContacts(userId) {
+        return this.count({
+            $and: [
+                {$or: [
+                    {'userId': userId},
+                    {'contactId': userId}
+                ]},
+                {'status': true}
+            ]
+        }).exec();
+    },
+
+    countAllContactsSent(userId) {
+        return this.count({
+            $and: [
+                {'userId': userId},
+                {'status': false}
+            ]
+        }).exec();
+    },
+
+    countAllContactsReceived(userId) {
+        return this.count({
+            $and: [
+                {'contactId': userId},
+                {'status': false}
+            ]
+        }).exec();
+    },
+
+    readMoreContacts(userId, skip, limit) {
+        return this.find({
+            $and: [
+                {$or: [
+                    {'userId': userId},
+                    {'contactId': userId}
+                ]},
+                {'status': true}
+            ]
+        }).sort({'createdAt': -1}).skip(skip).limit(limit).exec();
+    },
+
+    readMoreContactsSent(userId, skip, limit) {
+        return this.find({
+            $and: [
+                {'userId': userId},
+                {'status': false}
+            ]
+        }).sort({'createdAt': -1}).skip(skip).limit(limit).exec();
+    },
+
+    readMoreContactsReceived(userId, skip, limit) {
+        return this.find({
+            $and: [
+                {'contactId': userId},
+                {'status': false}
+            ]
+        }).sort({'createdAt': -1}).skip(skip).limit(limit).exec();
     }
+
 };
 
 module.exports = mongoose.model('contact', ContactSchema);
